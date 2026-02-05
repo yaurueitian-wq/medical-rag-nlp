@@ -20,6 +20,7 @@ from langchain_community.document_loaders import PyPDFLoader
 from datetime import datetime
 import os
 import gradio as gr
+import config as cfg
 
 # ============================================================
 # 1. 準備醫療資料（與 test_RAG.py 相同）
@@ -117,32 +118,22 @@ medical_documents = [
 print("⏳ 正在初始化 RAG 系統...")
 
 text_splitter = RecursiveCharacterTextSplitter(
-    chunk_size=300, chunk_overlap=50,
-    separators=["\n\n", "\n", "。", "，", " ", ""],
+    chunk_size=cfg.CHUNK_SIZE,
+    chunk_overlap=cfg.CHUNK_OVERLAP,
+    separators=cfg.CHUNK_SEPARATORS,
 )
 splits = text_splitter.split_documents(medical_documents)
 
-embeddings = OllamaEmbeddings(model="nomic-embed-text")
+embeddings = OllamaEmbeddings(model=cfg.EMBEDDING_MODEL)
 vectorstore = Chroma.from_documents(
     documents=splits,
     embedding=embeddings,
     collection_name="medical_app",
 )
 
-llm = ChatOllama(model="llama3.2:3b", temperature=0.3)
+llm = ChatOllama(model=cfg.LLM_MODEL, temperature=cfg.LLM_TEMPERATURE)
 
-prompt = ChatPromptTemplate.from_template("""
-你是一位專業的醫療助理。請根據以下提供的參考資料來回答問題。
-如果參考資料中沒有相關資訊，請誠實告知你無法從現有資料中找到答案。
-請用繁體中文回答。
-
-參考資料：
-{context}
-
-問題：{question}
-
-回答：
-""")
+prompt = ChatPromptTemplate.from_template(cfg.SYSTEM_PROMPT)
 
 print(f"✅ RAG 系統初始化完成（{len(splits)} 個文本片段）")
 
@@ -271,9 +262,9 @@ def rag_query(question: str, top_k: int = 3):
         content = doc.page_content.strip()[:200]
 
         # 根據分數決定顏色標籤
-        if score_pct > 85:
+        if score_pct > cfg.SCORE_HIGH:
             level = "🟢 高度相關"
-        elif score_pct >= 70:
+        elif score_pct >= cfg.SCORE_MID:
             level = "🟡 中度相關"
         else:
             level = "🔴 低度相關"
@@ -414,12 +405,12 @@ with gr.Blocks(
                     lines=2,
                 )
                 top_k_slider = gr.Slider(
-                    minimum=1, maximum=5, value=3, step=1,
+                    minimum=1, maximum=cfg.MAX_TOP_K, value=cfg.DEFAULT_TOP_K, step=1,
                     label="檢索片段數 (Top-K)",
                     info="從知識庫中檢索最相關的 K 個文本片段",
                 )
             with gr.Column(scale=1, min_width=220):
-                gr.Markdown("""
+                gr.Markdown(f"""
 **💡 使用說明**
 1. 輸入你的醫療問題
 2. 調整 Top-K 檢索片段數
@@ -427,9 +418,9 @@ with gr.Blocks(
 4. 下方顯示 AI 回答與檢索依據
 
 **📊 關聯度**
-- 🟢 > 85% 高度相關
-- 🟡 70-85% 中度相關
-- 🔴 < 70% 低度相關
+- 🟢 > {cfg.SCORE_HIGH}% 高度相關
+- 🟡 {cfg.SCORE_MID}-{cfg.SCORE_HIGH}% 中度相關
+- 🔴 < {cfg.SCORE_MID}% 低度相關
                 """, elem_classes="info-panel")
         submit_btn = gr.Button(
             "🔍 提問", variant="primary",
@@ -507,4 +498,4 @@ with gr.Blocks(
 if __name__ == "__main__":
     print("\n🚀 啟動 Web 介面...")
     print("   開啟瀏覽器前往: http://localhost:7860")
-    app.launch(server_name="0.0.0.0", server_port=7860)
+    app.launch(server_name=cfg.SERVER_HOST, server_port=cfg.SERVER_PORT)

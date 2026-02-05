@@ -260,6 +260,25 @@ UI 功能：
 - **為什麼顯示知識庫清單？** 讓使用者清楚知道 AI 的回答是基於哪些來源，提高透明度與可信度
 - **為什麼用 Accordion？** 知識庫管理是進階功能，預設收合不干擾主要問答流程
 
+### 10.7 參數設定檔 config.py（2026-02-05 新增）
+
+將所有可調參數從 `rag_app.py` 抽出至獨立的 `config.py`，方便實驗不同參數組合：
+
+| 參數 | 設定變數 | 目前值 | 說明 |
+|------|----------|--------|------|
+| LLM 模型 | `LLM_MODEL` | llama3.2:3b | Ollama 模型名稱 |
+| Temperature | `LLM_TEMPERATURE` | 0.3 | 生成溫度（0=保守, 1=創意） |
+| Embedding 模型 | `EMBEDDING_MODEL` | nomic-embed-text | 文字轉向量模型 |
+| 片段大小 | `CHUNK_SIZE` | 300 | 每個文本片段最大字元數 |
+| 重疊字元 | `CHUNK_OVERLAP` | 50 | 相鄰片段重疊量 |
+| 分割符號 | `CHUNK_SEPARATORS` | 段落→換行→句號→逗號→空格 | 分割優先順序 |
+| 預設 Top-K | `DEFAULT_TOP_K` | 3 | 預設檢索片段數 |
+| 高度相關門檻 | `SCORE_HIGH` | 85 | > 此值為 🟢 |
+| 中度相關門檻 | `SCORE_MID` | 70 | ≥ 此值為 🟡 |
+| Prompt | `SYSTEM_PROMPT` | （見 config.py） | LLM 系統提示詞 |
+
+**使用方式：** 修改 `config.py` 後重啟 `python3 rag_app.py` 即可。
+
 ---
 
 ## 11. 延伸學習建議
