@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "question": "糖尿病的診斷標準是什麼？",
+    "expected_sources": ["內科學教科書"],
+    "expected_keywords": ["空腹血糖", "126", "HbA1c", "6.5"],
+    "difficulty": "easy",
+    "category": "糖尿病"
+  },
+  {
+    "id": 2,
+    "question": "第二型糖尿病的第一線用藥是什麼？有什麼副作用？",
+    "expected_sources": ["臨床藥理學"],
+    "expected_keywords": ["Metformin", "腸胃", "腹瀉"],
+    "difficulty": "easy",
+    "category": "糖尿病"
+  },
+  {
+    "id": 3,
+    "question": "高血壓的非藥物治療有哪些方法？",
+    "expected_sources": ["心臟內科學"],
+    "expected_keywords": ["減鈉", "運動", "體重", "戒菸"],
+    "difficulty": "easy",
+    "category": "高血壓"
+  },
+  {
+    "id": 4,
+    "question": "高血壓合併糖尿病的患者應該首選什麼降壓藥？為什麼？",
+    "expected_sources": ["臨床藥理學"],
+    "expected_keywords": ["ACE", "ARB", "腎臟保護"],
+    "difficulty": "medium",
+    "category": "高血壓"
+  },
+  {
+    "id": 5,
+    "question": "急性心肌梗塞的典型症狀有哪些？",
+    "expected_sources": ["急診醫學"],
+    "expected_keywords": ["胸痛", "壓迫", "左肩", "冷汗"],
+    "difficulty": "easy",
+    "category": "急性心肌梗塞"
+  },
+  {
+    "id": 6,
+    "question": "急性心肌梗塞的MONA治療是什麼意思？",
+    "expected_sources": ["急診醫學"],
+    "expected_keywords": ["Morphine", "Oxygen", "Nitroglycerin", "Aspirin"],
+    "difficulty": "medium",
+    "category": "急性心肌梗塞"
+  },
+  {
+    "id": 7,
+    "question": "慢性腎臟病第三期的GFR範圍是多少？",
+    "expected_sources": ["腎臟內科學"],
+    "expected_keywords": ["30", "59"],
+    "difficulty": "medium",
+    "category": "慢性腎臟病"
+  },
+  {
+    "id": 8,
+    "question": "CKD患者的血壓控制目標是多少？應該用什麼藥物保護腎臟？",
+    "expected_sources": ["腎臟內科學"],
+    "expected_keywords": ["130/80", "ACEI", "ARB"],
+    "difficulty": "medium",
+    "category": "慢性腎臟病"
+  },
+  {
+    "id": 9,
+    "question": "第一型和第二型糖尿病有什麼不同？",
+    "expected_sources": ["內科學教科書"],
+    "expected_keywords": ["自體免疫", "β細胞", "胰島素抗性", "90"],
+    "difficulty": "medium",
+    "category": "糖尿病"
+  },
+  {
+    "id": 10,
+    "question": "糖尿病腎病變的患者在用藥上需要注意什麼？",
+    "expected_sources": ["臨床藥理學", "腎臟內科學"],
+    "expected_keywords": ["eGFR", "Metformin", "NSAIDs"],
+    "difficulty": "hard",
+    "category": "跨科別"
+  }
+]

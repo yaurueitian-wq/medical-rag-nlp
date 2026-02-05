@@ -1,0 +1,447 @@
+{
+  "version": "v0_baseline",
+  "description": "Baseline：原始 RAG 系統（chunk=300, overlap=50, top_k=3, llama3.2:3b）",
+  "timestamp": "2026-02-05T17:18:48.074559",
+  "summary": {
+    "retrieval_hit_rate": 80.0,
+    "retrieval_mrr": 0.533,
+    "avg_similarity": 52.8,
+    "avg_top1_similarity": 57.7,
+    "keyword_coverage": 50.0,
+    "faithfulness": 3.5,
+    "avg_retrieval_time": 0.18,
+    "avg_generation_time": 6.02,
+    "total_questions": 10
+  },
+  "details": [
+    {
+      "id": 1,
+      "question": "糖尿病的診斷標準是什麼？",
+      "category": "糖尿病",
+      "difficulty": "easy",
+      "answer": "根據提供的參考資料，我們無法直接找到關於糖尿病診斷標準的資訊。然而，糖尿病通常被定義為血糖水平超過正常範圍（通常為 6.1 mmol/L 或 110 mg/dL），並且在至少兩次測量中持續出現這種狀況。\n\n如果您需要進一步的資訊或具體指南，建議Consult醫療專業人士或相關的臨床指南。",
+      "retrieval": {
+        "hit": false,
+        "mrr": 0.0,
+        "avg_score": 50.3,
+        "top1_score": 51.3
+      },
+      "keyword": {
+        "coverage": 0.0,
+        "matched": [],
+        "missed": [
+          "空腹血糖",
+          "126",
+          "HbA1c",
+          "6.5"
+        ]
+      },
+      "faithfulness": 4,
+      "retrieval_time": 0.03,
+      "generation_time": 19.72,
+      "retrieved_sources": [
+        {
+          "source": "急診醫學",
+          "topic": "急性心肌梗塞",
+          "score": 51.3
+        },
+        {
+          "source": "臨床藥理學",
+          "topic": "高血壓藥物治療",
+          "score": 50.3
+        },
+        {
+          "source": "心臟內科學",
+          "topic": "高血壓",
+          "score": 49.2
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "第二型糖尿病的第一線用藥是什麼？有什麼副作用？",
+      "category": "糖尿病",
+      "difficulty": "easy",
+      "answer": "第二型糖尿病的第一線用藥是Metformin（二甲雙胍）。常見副作用包括腸胃不適、腹瀉。",
+      "retrieval": {
+        "hit": true,
+        "mrr": 1.0,
+        "avg_score": 46.6,
+        "top1_score": 56.3
+      },
+      "keyword": {
+        "coverage": 100.0,
+        "matched": [
+          "Metformin",
+          "腸胃",
+          "腹瀉"
+        ],
+        "missed": []
+      },
+      "faithfulness": 4,
+      "retrieval_time": 0.49,
+      "generation_time": 3.78,
+      "retrieved_sources": [
+        {
+          "source": "臨床藥理學",
+          "topic": "糖尿病藥物治療",
+          "score": 56.3
+        },
+        {
+          "source": "內科學教科書",
+          "topic": "糖尿病概論",
+          "score": 46.5
+        },
+        {
+          "source": "急診醫學",
+          "topic": "急性心肌梗塞",
+          "score": 37.1
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "question": "高血壓的非藥物治療有哪些方法？",
+      "category": "高血壓",
+      "difficulty": "easy",
+      "answer": "根據提供的參考資料，高血壓的非藥物治療包括：\n\n1. 降鈉飲食（每日鈉攝取 < 2300mg）\n2. 規律運動（每週150分鐘中等強度運動）\n3. 維持健康體重（BMI 18.5-24.9）\n4. 限制酒精攝取\n5. 猶豫戒菸",
+      "retrieval": {
+        "hit": true,
+        "mrr": 0.5,
+        "avg_score": 65.4,
+        "top1_score": 72.5
+      },
+      "keyword": {
+        "coverage": 75.0,
+        "matched": [
+          "運動",
+          "體重",
+          "戒菸"
+        ],
+        "missed": [
+          "減鈉"
+        ]
+      },
+      "faithfulness": 3,
+      "retrieval_time": 0.42,
+      "generation_time": 6.31,
+      "retrieved_sources": [
+        {
+          "source": "臨床藥理學",
+          "topic": "高血壓藥物治療",
+          "score": 72.5
+        },
+        {
+          "source": "心臟內科學",
+          "topic": "高血壓",
+          "score": 63.7
+        },
+        {
+          "source": "心臟內科學",
+          "topic": "高血壓",
+          "score": 60.1
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "question": "高血壓合併糖尿病的患者應該首選什麼降壓藥？為什麼？",
+      "category": "高血壓",
+      "difficulty": "medium",
+      "answer": "根據參考資料，ACE抑制劑（如 Enalapril, Lisinopril）是針對高血壓合併糖尿病的患者的一種適當治療選擇。這是因為ACE抑制劑可以有效降低血壓，並且對於糖尿病腎病變有益處。\n\n然而，需要注意的是，這類藥物可能會引起乾咳（10-15%患者）和血管性水腫（罕見但嚴重），因此需要密切監測和管理。",
+      "retrieval": {
+        "hit": true,
+        "mrr": 1.0,
+        "avg_score": 64.0,
+        "top1_score": 67.8
+      },
+      "keyword": {
+        "coverage": 33.3,
+        "matched": [
+          "ACE"
+        ],
+        "missed": [
+          "ARB",
+          "腎臟保護"
+        ]
+      },
+      "faithfulness": 4,
+      "retrieval_time": 0.28,
+      "generation_time": 5.8,
+      "retrieved_sources": [
+        {
+          "source": "臨床藥理學",
+          "topic": "高血壓藥物治療",
+          "score": 67.8
+        },
+        {
+          "source": "心臟內科學",
+          "topic": "高血壓",
+          "score": 64.5
+        },
+        {
+          "source": "心臟內科學",
+          "topic": "高血壓",
+          "score": 59.6
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "question": "急性心肌梗塞的典型症狀有哪些？",
+      "category": "急性心肌梗塞",
+      "difficulty": "easy",
+      "answer": "急性心肌梗塞的典型症狀包括胸痛（壓迫感、緊縮感，持續超過20分鐘），可放射至左肩、左臂、下顎。",
+      "retrieval": {
+        "hit": true,
+        "mrr": 1.0,
+        "avg_score": 56.1,
+        "top1_score": 63.2
+      },
+      "keyword": {
+        "coverage": 75.0,
+        "matched": [
+          "胸痛",
+          "壓迫",
+          "左肩"
+        ],
+        "missed": [
+          "冷汗"
+        ]
+      },
+      "faithfulness": 3,
+      "retrieval_time": 0.14,
+      "generation_time": 3.17,
+      "retrieved_sources": [
+        {
+          "source": "急診醫學",
+          "topic": "急性心肌梗塞",
+          "score": 63.2
+        },
+        {
+          "source": "臨床藥理學",
+          "topic": "高血壓藥物治療",
+          "score": 52.6
+        },
+        {
+          "source": "心臟內科學",
+          "topic": "高血壓",
+          "score": 52.4
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "question": "急性心肌梗塞的MONA治療是什麼意思？",
+      "category": "急性心肌梗塞",
+      "difficulty": "medium",
+      "answer": "根據提供的參考資料，我無法從現有資料中找到答案，無法確定急性心肌梗塞的MONA治療。",
+      "retrieval": {
+        "hit": true,
+        "mrr": 0.5,
+        "avg_score": 57.2,
+        "top1_score": 66.0
+      },
+      "keyword": {
+        "coverage": 0.0,
+        "matched": [],
+        "missed": [
+          "Morphine",
+          "Oxygen",
+          "Nitroglycerin",
+          "Aspirin"
+        ]
+      },
+      "faithfulness": 3,
+      "retrieval_time": 0.08,
+      "generation_time": 3.25,
+      "retrieved_sources": [
+        {
+          "source": "臨床藥理學",
+          "topic": "糖尿病藥物治療",
+          "score": 66.0
+        },
+        {
+          "source": "急診醫學",
+          "topic": "急性心肌梗塞",
+          "score": 53.1
+        },
+        {
+          "source": "臨床藥理學",
+          "topic": "高血壓藥物治療",
+          "score": 52.6
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "question": "慢性腎臟病第三期的GFR範圍是多少？",
+      "category": "慢性腎臟病",
+      "difficulty": "medium",
+      "answer": "慢性腎臟病第三期的GFR範圍是45-59。",
+      "retrieval": {
+        "hit": true,
+        "mrr": 0.3333333333333333,
+        "avg_score": 43.6,
+        "top1_score": 44.0
+      },
+      "keyword": {
+        "coverage": 50.0,
+        "matched": [
+          "59"
+        ],
+        "missed": [
+          "30"
+        ]
+      },
+      "faithfulness": 4,
+      "retrieval_time": 0.05,
+      "generation_time": 2.47,
+      "retrieved_sources": [
+        {
+          "source": "內科學教科書",
+          "topic": "糖尿病概論",
+          "score": 44.0
+        },
+        {
+          "source": "內科學教科書",
+          "topic": "糖尿病概論",
+          "score": 43.6
+        },
+        {
+          "source": "腎臟內科學",
+          "topic": "慢性腎臟病",
+          "score": 43.4
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "question": "CKD患者的血壓控制目標是多少？應該用什麼藥物保護腎臟？",
+      "category": "慢性腎臟病",
+      "difficulty": "medium",
+      "answer": "根據參考資料，CKD（慢性腎臟疾病）患者的血壓控制目標通常為小於130/80 mmHg。\n\n對於CKD患者，首選藥物是ACE抑制劑或ARB（血管緊張素轉換酶抑制劑或血管緊張素受體阻滯劑），因為這些藥物具有腎臟保護作用，可以減少蛋白尿和腎功能惡化的速度。",
+      "retrieval": {
+        "hit": false,
+        "mrr": 0.0,
+        "avg_score": 48.7,
+        "top1_score": 51.4
+      },
+      "keyword": {
+        "coverage": 66.7,
+        "matched": [
+          "130/80",
+          "ARB"
+        ],
+        "missed": [
+          "ACEI"
+        ]
+      },
+      "faithfulness": 4,
+      "retrieval_time": 0.06,
+      "generation_time": 5.24,
+      "retrieved_sources": [
+        {
+          "source": "臨床藥理學",
+          "topic": "高血壓藥物治療",
+          "score": 51.4
+        },
+        {
+          "source": "臨床藥理學",
+          "topic": "糖尿病藥物治療",
+          "score": 48.8
+        },
+        {
+          "source": "內科學教科書",
+          "topic": "糖尿病概論",
+          "score": 45.9
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "question": "第一型和第二型糖尿病有什麼不同？",
+      "category": "糖尿病",
+      "difficulty": "medium",
+      "answer": "第一型糖尿病是一種自體免疫疾病，胰臟的β細胞被破壞，無法產生胰島素。通常在兒童或青少年時期發病。\n\n第二型糖尿病是最常見的類型，佔所有糖尿病患者約90-95%。身體產生胰島素抗性，或胰臟無法產生足夠的胰島素。",
+      "retrieval": {
+        "hit": true,
+        "mrr": 0.5,
+        "avg_score": 46.3,
+        "top1_score": 51.4
+      },
+      "keyword": {
+        "coverage": 100.0,
+        "matched": [
+          "自體免疫",
+          "β細胞",
+          "胰島素抗性",
+          "90"
+        ],
+        "missed": []
+      },
+      "faithfulness": 3,
+      "retrieval_time": 0.05,
+      "generation_time": 5.47,
+      "retrieved_sources": [
+        {
+          "source": "臨床藥理學",
+          "topic": "糖尿病藥物治療",
+          "score": 51.4
+        },
+        {
+          "source": "內科學教科書",
+          "topic": "糖尿病概論",
+          "score": 47.3
+        },
+        {
+          "source": "臨床藥理學",
+          "topic": "高血壓藥物治療",
+          "score": 40.2
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "question": "糖尿病腎病變的患者在用藥上需要注意什麼？",
+      "category": "跨科別",
+      "difficulty": "hard",
+      "answer": "根據提供的參考資料，糖尿病腎病變的患者在用藥上需要注意的是：合併糖尿病的高血壓患者，首選ACE抑制劑或ARB，因為具有腎臟保護作用。",
+      "retrieval": {
+        "hit": true,
+        "mrr": 0.5,
+        "avg_score": 49.5,
+        "top1_score": 53.0
+      },
+      "keyword": {
+        "coverage": 0.0,
+        "matched": [],
+        "missed": [
+          "eGFR",
+          "Metformin",
+          "NSAIDs"
+        ]
+      },
+      "faithfulness": 3,
+      "retrieval_time": 0.18,
+      "generation_time": 4.96,
+      "retrieved_sources": [
+        {
+          "source": "急診醫學",
+          "topic": "急性心肌梗塞",
+          "score": 53.0
+        },
+        {
+          "source": "臨床藥理學",
+          "topic": "高血壓藥物治療",
+          "score": 48.3
+        },
+        {
+          "source": "腎臟內科學",
+          "topic": "慢性腎臟病",
+          "score": 47.1
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "llm_model": "llama3.2:3b",
+  "llm_temperature": 0.3,
+  "embedding_model": "nomic-embed-text",
+  "chunk_size": 300,
+  "chunk_overlap": 50,
+  "chunk_separators": [
+    "\n\n",
+    "\n",
+    "。",
+    "，",
+    " ",
+    ""
+  ],
+  "default_top_k": 3,
+  "system_prompt": "你是一位專業的醫療助理。請根據以下提供的參考資料來回答問題。\n如果參考資料中沒有相關資訊，請誠實告知你無法從現有資料中找到答案。\n請用繁體中文回答。\n\n參考資料：\n{context}\n\n問題：{question}\n\n回答：",
+  "num_chunks": 12
+}
