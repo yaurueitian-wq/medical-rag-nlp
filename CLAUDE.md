@@ -13,3 +13,15 @@
 **更新方式：** 直接編輯 `RAG_實作紀錄.md`，在對應章節中新增內容。如果是全新主題，則新增章節。
 
 **紀錄文件位置：** `NLP/RAG_實作紀錄.md`
+
+## 2. 版本控制
+
+本專案使用 Git 進行版控，遠端 repo：`yaurueitian-wq/medical-rag-nlp`（Private）。
+
+### 規則
+
+- **每次完成一個功能或修改後**，主動提醒使用者是否要 commit 並 push
+- Commit message 使用中文描述，格式：`類型: 簡述`
+  - 類型：`feat`（新功能）、`fix`（修復）、`docs`（文件）、`refactor`（重構）、`style`（樣式）
+- 不要自動 commit/push，必須經過使用者確認
+- `.gitignore` 已排除：`chroma_db/`、`__pycache__/`、`.claude/`、`.DS_Store`
