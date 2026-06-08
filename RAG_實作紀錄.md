@@ -397,3 +397,45 @@ experiments/
 3. 嘗試不同的 LLM 模型（如 llama3.2:1b 或更大的模型）
 4. 加入 metadata filtering 做更精確的檢索
 5. 實作 multi-query retrieval 提高召回率
+
+---
+
+## 13. 優化方向討論：MLflow / Optuna vs. 使用者回饋機制（2026-06-08）
+
+### 13.1 背景
+
+專案已有 `eval_rag.py`（Level 0 評估框架）與 `experiments/` 實驗追蹤，討論是否要進一步引入 **MLflow**（實驗記錄／比較）與 **Optuna**（超參數自動搜尋），來改善語意搜尋的精準度。
+
+### 13.2 討論結論
+
+| 觀點 | 結論 |
+|------|------|
+| MLflow / Optuna 的角色 | 兩者作用在「檢索/組裝管線」的參數（chunk_size、chunk_overlap、top_k、embedding 模型選擇），而**不是**在調整模型本身的結構或權重 |
+| 離線指標的侷限 | Optuna 優化的是 `eval_rag.py` 中寫死的離線指標（hit rate、相似度），這些分數未必等於使用者的真實體感，存在「優化到數字、卻沒優化到真實品質」的風險 |
+| 更貼近核心的方向 | 與其在固定的 `test_questions.json` 上空轉參數搜尋，不如直接收集**真實使用時的回饋訊號**（👍/👎、意見），這才是檢索精準度的 ground truth，且能隨知識庫成長持續修正 |
+
+**最終決策：先實作「使用者回饋機制」**，待累積足夠真實回饋資料後，再評估是否需要 MLflow / Optuna 做系統性參數搜尋。
+
+### 13.3 實作內容：RAG 回答回饋機制
+
+在 `rag_app.py` 的 Gradio UI 中新增：
+
+1. **回饋區 UI**（結果區下方）
+   - 👍「有幫助」／👎「沒幫助」按鈕
+   - 選填的「意見回饋」文字輸入框
+   - 即時顯示回饋已記錄的狀態訊息
+
+2. **狀態保存：`gr.State`**
+   - `rag_query()` 除了回傳「回答」與「檢索結果」外，新增回傳一份結構化的 `query_state`（包含 question、answer、top_k、retrieved_sources 與其分數），存入 `last_query_state`，供回饋按鈕使用
+   - 每次重新提問時，`feedback_status` 會被清空，避免顯示上一輪的回饋訊息
+
+3. **回饋紀錄：`save_feedback()`**
+   - 將每筆回饋以 **JSONL** 格式（一行一筆 JSON）追加寫入專案根目錄的 `feedback_log.jsonl`
+   - 紀錄欄位：`timestamp`、`question`、`answer`、`top_k`、`retrieved_sources`（含來源、主題、相似度分數）、`rating`（"up"/"down"）、`comment`
+   - 已加入 `.gitignore`，避免將含對話內容的回饋紀錄提交進版控
+
+### 13.4 後續可能的應用
+
+- 將 `feedback_log.jsonl` 中被標記「沒幫助」且有具體意見的問答，整理成新的測試案例擴充 `test_questions.json`
+- 統計 👍/👎 比例與常見的負評關鍵字，作為調整 `CHUNK_SIZE`／`DEFAULT_TOP_K`／知識庫內容的依據
+- 待累積足夠資料後，再評估是否導入 MLflow（記錄每版參數與回饋指標的對照）與 Optuna（自動搜尋最佳檢索參數）

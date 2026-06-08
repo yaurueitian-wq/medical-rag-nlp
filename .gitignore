@@ -9,6 +9,9 @@ build/
 # 向量資料庫（體積大，不需版控）
 chroma_db/
 
+# 使用者回饋紀錄（內含對話內容，不需版控）
+feedback_log.jsonl
+
 # 系統檔案
 .DS_Store
 Thumbs.db
