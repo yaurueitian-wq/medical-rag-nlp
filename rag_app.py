@@ -61,6 +61,32 @@ print(f"✅ RAG 系統初始化完成（{len(splits)} 個文本片段）")
 FEEDBACK_LOG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "feedback_log.jsonl")
 
 
+def compute_score_distribution(retrieved_sources: list) -> dict:
+    """
+    從檢索結果的分數列表，計算分數分佈統計，作為回饋資料的輔助診斷訊號。
+
+    - top1_score：最高分（最相關片段的相似度）
+    - score_gap：Top1 與 Top2 的分數差距（陡降 vs. 平坦的量化指標）
+    - avg_score：平均分數
+    - score_std：分數的標準差（離散程度，越小代表分佈越平坦）
+    """
+    scores = [s["score"] for s in retrieved_sources]
+    if not scores:
+        return {"top1_score": None, "score_gap": None, "avg_score": None, "score_std": None}
+
+    n = len(scores)
+    avg = sum(scores) / n
+    variance = sum((s - avg) ** 2 for s in scores) / n
+    gap = scores[0] - scores[1] if n >= 2 else None
+
+    return {
+        "top1_score": round(scores[0], 1),
+        "score_gap": round(gap, 1) if gap is not None else None,
+        "avg_score": round(avg, 1),
+        "score_std": round(variance ** 0.5, 1),
+    }
+
+
 def save_feedback(state: dict, rating: str, failure_type: str, comment: str) -> str:
     """將使用者對單次問答的回饋（👍/👎＋失敗類型＋意見）以 JSONL 格式追加寫入。"""
     if not state or not state.get("question"):
@@ -72,6 +98,7 @@ def save_feedback(state: dict, rating: str, failure_type: str, comment: str) -> 
         "answer": state["answer"],
         "top_k": state["top_k"],
         "retrieved_sources": state["retrieved_sources"],
+        "score_distribution": compute_score_distribution(state["retrieved_sources"]),
         "rating": rating,
         "failure_type": failure_type if rating == "down" else None,
         "comment": comment.strip() if comment else "",
